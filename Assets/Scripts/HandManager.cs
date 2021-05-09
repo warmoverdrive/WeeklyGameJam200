@@ -17,12 +17,14 @@ public class HandManager : MonoBehaviour
     {
         GameManager.OnPlayerTurn += StartTurn;
         GameManager.OnEndTurn += EndTurn;
+        GameManager.OnPlayCard += RemoveCard;
     }
 
     private void OnDestroy()
     {
         GameManager.OnPlayerTurn -= StartTurn;
         GameManager.OnEndTurn -= EndTurn;
+        GameManager.OnPlayCard -= RemoveCard;
     }
 
     void StartTurn()
@@ -41,5 +43,10 @@ public class HandManager : MonoBehaviour
         foreach (CardUI card in cards)
             Destroy(card.gameObject);
         cards.Clear();
+    }
+
+    void RemoveCard(CardUI card)
+    {
+        cards.Remove(card);
     }
 }

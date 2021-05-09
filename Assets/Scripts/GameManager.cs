@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public static event Action OnEndTurn;
     public static event Action<int> OnBankUpdate;
     public static event Action<int> OnTurnCountUpdate;
+    public static event Action<CardUI> OnPlayCard;
     public static States state;
 
     int turnCount = 1;
@@ -91,7 +92,7 @@ public class GameManager : MonoBehaviour
             else
                 space.SetPieceType(selectedCard.cardType.newPieceSO);
 
-            Destroy(selectedCard.gameObject);
+            OnPlayCard.Invoke(selectedCard);
             selectedCard = null;
         }
     }
