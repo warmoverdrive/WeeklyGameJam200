@@ -11,19 +11,35 @@ public class HandManager : MonoBehaviour
     [SerializeField]
     CardUI cardPrefab;
 
+    List<CardUI> cards = new List<CardUI>();
 
-    void Start()
+    private void Awake()
     {
-        StartTurn();
+        GameManager.OnPlayerTurn += StartTurn;
+        GameManager.OnEndTurn += EndTurn;
     }
 
-    public void StartTurn()
+    private void OnDestroy()
+    {
+        GameManager.OnPlayerTurn -= StartTurn;
+        GameManager.OnEndTurn -= EndTurn;
+    }
+
+    void StartTurn()
     {
         foreach (var pos in cardPositions)
         {
             var newCard = Instantiate(cardPrefab, transform);
             newCard.transform.position = pos.position;
             newCard.SetCardType(deck[Random.Range(0, deck.Length)]);
+            cards.Add(newCard);
         }
+    }
+
+    void EndTurn()
+    {
+        foreach (CardUI card in cards)
+            Destroy(card.gameObject);
+        cards.Clear();
     }
 }

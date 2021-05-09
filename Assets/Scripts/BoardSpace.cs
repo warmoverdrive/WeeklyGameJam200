@@ -42,7 +42,7 @@ public class BoardSpace : MonoBehaviour, IPointerClickHandler
             else
                 ShowTooltip();
         }
-        else if (eventData.button == PointerEventData.InputButton.Left)
+        else if (eventData.button == PointerEventData.InputButton.Left && GameManager.state == States.PlayerTurn)
             Debug.Log($"Clicked {this.name}");
     }
 

@@ -54,7 +54,7 @@ public class CardUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
             else
                 ShowTooltip();
         }
-        else if (eventData.button == PointerEventData.InputButton.Left)
+        else if (eventData.button == PointerEventData.InputButton.Left && GameManager.state == States.PlayerTurn)
         {
             Debug.Log($"{cardType.cardName} clicked!");
         }
