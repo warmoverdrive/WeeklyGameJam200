@@ -9,4 +9,5 @@ public class PieceSO : ScriptableObject
     [TextArea]
     public string rules;
     public Color color;
+    public bool canImprove;
 }

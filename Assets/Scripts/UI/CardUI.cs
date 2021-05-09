@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System;
 
 public class CardUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -15,11 +16,13 @@ public class CardUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
     [SerializeField]
     Image image;
     [SerializeField]
-    CardSO cardType;
+    public CardSO cardType { get; private set; }
     ToolTip tooltip;
     RectTransform rectTransform;
 
     bool tooltipShown = false;
+
+    public static event Action<CardUI> OnCardSelected;
 
     private void Start()
     {
@@ -57,6 +60,7 @@ public class CardUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
         else if (eventData.button == PointerEventData.InputButton.Left && GameManager.state == States.PlayerTurn)
         {
             Debug.Log($"{cardType.cardName} clicked!");
+            OnCardSelected.Invoke(this);
         }
     }
 

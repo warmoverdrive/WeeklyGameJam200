@@ -10,6 +10,8 @@ public class CardSO : ScriptableObject
     public string cardRule;
     public int cardCost;
     public Sprite cardImage;
+    public bool isImprovement;
     public PieceSO newPieceSO;
+    public ImprovementsSO newImprovementSO;
     public PieceSO[] validPieces;
 }

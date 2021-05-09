@@ -18,7 +18,18 @@ public class GameManager : MonoBehaviour
     int turnCount = 1;
     int bank = 10;
     [SerializeField] int turnDelay = 2;
+    [SerializeField] CardUI selectedCard;
 
+    private void Awake()
+    {
+        CardUI.OnCardSelected += UpdateSelectedCard;
+        BoardSpace.OnBoardClicked += UpdateBoardSpace;
+    }
+    private void OnDestroy()
+    {
+        CardUI.OnCardSelected -= UpdateSelectedCard;
+        BoardSpace.OnBoardClicked -= UpdateBoardSpace;
+    }
 
     private void Start()
     {
@@ -26,7 +37,6 @@ public class GameManager : MonoBehaviour
         InitializeUI();
         StartPlayerTurn();
     }
-
 
     void InitializeUI()
     {
@@ -63,5 +73,26 @@ public class GameManager : MonoBehaviour
         turnCount++;
         OnTurnCountUpdate.Invoke(turnCount);
         StartPlayerTurn();
+    }
+
+    private void UpdateSelectedCard(CardUI card)
+        => selectedCard = card;
+
+    private void UpdateBoardSpace(BoardSpace space)
+    {
+        if (selectedCard == null) return;
+
+        // check cost
+
+        if (Array.Exists<PieceSO>(selectedCard.cardType.validPieces, piece => piece.pieceName == space.pieceType.pieceName))
+        {
+            if (selectedCard.cardType.isImprovement)
+                space.GetComponentInChildren<Improvement>().SetImprovementType(selectedCard.cardType.newImprovementSO);
+            else
+                space.SetPieceType(selectedCard.cardType.newPieceSO);
+
+            Destroy(selectedCard.gameObject);
+            selectedCard = null;
+        }
     }
 }

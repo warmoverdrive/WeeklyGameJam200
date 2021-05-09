@@ -15,3 +15,4 @@ MonoBehaviour:
   pieceName: Plowed
   rules: Ready to be seeded.
   color: {r: 0.9339623, g: 0.58704805, b: 0.34866244, a: 0}
+  canImprove: 1

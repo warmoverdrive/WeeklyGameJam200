@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System;
 
 public class BoardSpace : MonoBehaviour, IPointerClickHandler
 {
@@ -11,6 +12,8 @@ public class BoardSpace : MonoBehaviour, IPointerClickHandler
     ToolTip tooltip;
 
     bool tooltipShown = false;
+
+    public static event Action<BoardSpace> OnBoardClicked;
 
     private void Start()
     {
@@ -43,7 +46,10 @@ public class BoardSpace : MonoBehaviour, IPointerClickHandler
                 ShowTooltip();
         }
         else if (eventData.button == PointerEventData.InputButton.Left && GameManager.state == States.PlayerTurn)
+        {
             Debug.Log($"Clicked {this.name}");
+            OnBoardClicked.Invoke(this);
+        }
     }
 
     private void OnMouseExit()
