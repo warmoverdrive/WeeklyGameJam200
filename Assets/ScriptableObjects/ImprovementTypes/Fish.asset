@@ -18,8 +18,9 @@ MonoBehaviour:
     Develops in 3 turns. Harvest income
     of $12.'
   canGrow: 1
+  needsWater: 0
   growTime: 3
   harvestIncome: 12
   modelPrefab: {fileID: 0}
-  color: {r: 0.32084373, g: 0.46226418, b: 0.34315258, a: 0}
+  color: {r: 0.20784315, g: 0.16862746, b: 0.2509804, a: 0}
   tileChangeOnHarvest: {fileID: 0}

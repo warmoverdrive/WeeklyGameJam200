@@ -1,1 +1,3 @@
 Toon Shader - RoyStan
+Palette: "Nanner Jam" - Nannerman
+Font: VCR OSD Mono - Riciery Leal

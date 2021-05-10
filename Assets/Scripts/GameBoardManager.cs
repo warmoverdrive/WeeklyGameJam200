@@ -18,6 +18,7 @@ public class GameBoardManager : MonoBehaviour
 	List<List<BoardSpace>> boardSpaces;
 
 	public static event Action OnCompleteEndTurn;
+	public static event Action<bool> OnImprovementsPresent;
 
 	private void Awake()
 	{
@@ -65,6 +66,7 @@ public class GameBoardManager : MonoBehaviour
 	{
 		CheckWaterTiles();
 		CheckReclaimation();
+		CheckIfImprovementsExist();
 		OnCompleteEndTurn?.Invoke();
 	}
 
@@ -96,6 +98,20 @@ public class GameBoardManager : MonoBehaviour
 						space.SetPieceType(space.pieceType.reclaimationType);
 
 			}
+	}
+
+	private void CheckIfImprovementsExist()
+	{
+		foreach (var row in boardSpaces)
+			foreach (var space in row)
+			{
+				if (space.GetComponentInChildren<Improvement>().improvementType != null)
+				{
+					OnImprovementsPresent?.Invoke(true);
+					return;
+				}
+			}
+		OnImprovementsPresent?.Invoke(false);
 	}
 
 	private List<BoardSpace> CheckNeighbors(int row, int col)

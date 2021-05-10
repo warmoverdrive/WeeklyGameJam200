@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 	UIManager uiManager;
 	bool boardProcessed = false;
 	bool handProcessed = false;
+	bool improvementsPresent = false;
 
 	private void Awake()
 	{
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
 		BoardSpace.OnBoardClicked += UpdateBoardSpace;
 		Improvement.OnHarvest += UpdateBank;
 		GameBoardManager.OnCompleteEndTurn += OnBoardProcessed;
+		GameBoardManager.OnImprovementsPresent += OnImprovementsPresent;
 		HandManager.OnCompleteEndTurn += OnHandProcessed;
 	}
 	private void OnDestroy()
@@ -41,6 +43,7 @@ public class GameManager : MonoBehaviour
 		BoardSpace.OnBoardClicked -= UpdateBoardSpace;
 		Improvement.OnHarvest -= UpdateBank;
 		GameBoardManager.OnCompleteEndTurn -= OnBoardProcessed;
+		GameBoardManager.OnImprovementsPresent -= OnImprovementsPresent;
 		HandManager.OnCompleteEndTurn -= OnHandProcessed;
 	}
 
@@ -86,16 +89,22 @@ public class GameManager : MonoBehaviour
 		// wait for a second to show the player things have been processed
 		yield return new WaitForSeconds(turnDelay);
 
-		turnCount++;
-		if (turnCount > turnLimit)
-		{
-			EndGame(hasWon: true);
-		}
+		if (IsGameOver())
+			EndGame(hasWon: false);
 		else
 		{
-			OnTurnCountUpdate?.Invoke($"{turnCount}/{turnLimit}");
-			StartPlayerTurn();
+			turnCount++;
+			if (turnCount > turnLimit)
+			{
+				EndGame(hasWon: true);
+			}
+			else
+			{
+				OnTurnCountUpdate?.Invoke($"{turnCount}/{turnLimit}");
+				StartPlayerTurn();
+			}
 		}
+
 	}
 
 	private void UpdateSelectedCard(CardUI card)
@@ -127,6 +136,8 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+	bool IsGameOver() => (bank == 0 && !improvementsPresent);
+
 	void UpdateBank(int value)
 	{
 		bank += value;
@@ -135,6 +146,7 @@ public class GameManager : MonoBehaviour
 
 	void OnBoardProcessed() => boardProcessed = true;
 	void OnHandProcessed() => handProcessed = true;
+	void OnImprovementsPresent(bool hasImprovements) => improvementsPresent = hasImprovements;
 
 	private void EndGame(bool hasWon) => uiManager.ToggleGameOver(bank, hasWon);
 }

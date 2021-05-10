@@ -19,5 +19,5 @@ MonoBehaviour:
   growTime: 3
   harvestIncome: 12
   modelPrefab: {fileID: 0}
-  color: {r: 0.7270326, g: 1, b: 0.57142854, a: 0}
+  color: {r: 0.46274513, g: 0.76470596, b: 0.47450984, a: 0}
   tileChangeOnHarvest: {fileID: 11400000, guid: 0915f7df9e8c5014aac21a6f80480f1a, type: 2}

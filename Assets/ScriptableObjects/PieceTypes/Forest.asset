@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceName: Forest
   rules: Can be cleared with Axe.
-  color: {r: 0.04218583, g: 0.1981132, b: 0.066573836, a: 0}
+  color: {r: 0.3137255, g: 0.5529412, b: 0.46274513, a: 0}
   canImprove: 1
   reclaimationType: {fileID: 11400000, guid: 0915f7df9e8c5014aac21a6f80480f1a, type: 2}

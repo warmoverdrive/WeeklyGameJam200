@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceName: Rock
   rules: Can be cleared with Pick Axe
-  color: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 0}
+  color: {r: 0.7607844, g: 0.70980394, b: 0.6627451, a: 0}
   canImprove: 0
   reclaimationType: {fileID: 11400000, guid: 37074f7cba08f5847a76dbd442238ff5, type: 2}
