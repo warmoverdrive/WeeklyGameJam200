@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
 		turnCount++;
 		if (turnCount > turnLimit)
 		{
-			EndGame();
+			EndGame(hasWon: true);
 		}
 		else
 		{
@@ -136,5 +136,5 @@ public class GameManager : MonoBehaviour
 	void OnBoardProcessed() => boardProcessed = true;
 	void OnHandProcessed() => handProcessed = true;
 
-	private void EndGame() => uiManager.ToggleGameOver(bank);
+	private void EndGame(bool hasWon) => uiManager.ToggleGameOver(bank, hasWon);
 }

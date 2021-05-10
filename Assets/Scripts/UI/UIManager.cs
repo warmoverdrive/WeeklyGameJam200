@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
 	[SerializeField]
 	GameObject gameUI, menuUI, gameOverUI;
 	[SerializeField]
-	Text scoreText, highScoreText;
+	Text scoreText, highScoreText, gameOverText;
 
 	private void Update()
 	{
@@ -21,11 +21,12 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
-	public void ToggleGameOver(int score)
+	public void ToggleGameOver(int score, bool hasWon)
 	{
 		gameUI.SetActive(false);
 		menuUI.SetActive(false);
 		gameOverUI.SetActive(true);
+		gameOverText.text = hasWon ? "Season Complete!" : "Bankrupt!";
 		scoreText.text = $"Score: {score}";
 	}
 
