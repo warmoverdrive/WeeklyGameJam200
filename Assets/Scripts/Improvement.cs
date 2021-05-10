@@ -14,6 +14,8 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 	ToolTip tooltip;
 	TextMesh cooldownText;
 	BoardSpace parentSpace;
+	[SerializeField]
+	SpriteRenderer waterIcon;
 
 	GameObject model;
 
@@ -38,6 +40,7 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 		pointerTarget = GetComponent<SphereCollider>();
 		pointerTarget.enabled = false;
 		cooldownText = GetComponentInChildren<TextMesh>();
+		UnwaterImprovement();
 	}
 
 	private IEnumerator PieceInit()
@@ -81,7 +84,7 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 			else
 				cooldownText.text = "!";
 		}
-		isWatered = false;
+		UnwaterImprovement();
 	}
 
 	public void OnPointerClick(PointerEventData eventData)
@@ -119,7 +122,20 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 		tooltip.DeactivateTooltip();
 	}
 
-	public void WaterImprovement() => isWatered = true;
+	public void WaterImprovement()
+	{
+		if (improvementType.needsWater)
+		{
+			isWatered = true;
+			waterIcon.enabled = true;
+		}
+	}
+
+	private void UnwaterImprovement()
+	{
+		isWatered = false;
+		waterIcon.enabled = false;
+	}
 
 	private void HarvestImprovement()
 	{
@@ -127,6 +143,7 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 		if (improvementType.tileChangeOnHarvest) // if there is a piece to change to after harvest
 			parentSpace.SetPieceType(improvementType.tileChangeOnHarvest);
 		improvementType = null;
+		UnwaterImprovement();
 		pointerTarget.enabled = false;
 		cooldownText.text = "";
 		Destroy(model);

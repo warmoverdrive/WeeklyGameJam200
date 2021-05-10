@@ -22,10 +22,12 @@ public class GameBoardManager : MonoBehaviour
 	private void Awake()
 	{
 		GameManager.OnEndTurn += ExecuteEndTurn;
+		GameManager.OnBoardUpdate += CheckWaterTiles;
 	}
 	private void OnDestroy()
 	{
 		GameManager.OnEndTurn -= ExecuteEndTurn;
+		GameManager.OnBoardUpdate -= CheckWaterTiles;
 	}
 
 	void Start()

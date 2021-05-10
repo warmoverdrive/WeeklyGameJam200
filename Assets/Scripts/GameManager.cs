@@ -12,15 +12,18 @@ public class GameManager : MonoBehaviour
 	public static event Action OnPlayerTurn;
 	public static event Action OnEndTurn;
 	public static event Action<int> OnBankUpdate;
-	public static event Action<int> OnTurnCountUpdate;
+	public static event Action<string> OnTurnCountUpdate;
 	public static event Action<CardUI> OnPlayCard;
+	public static event Action OnBoardUpdate;
 	public static States state;
 
 	int turnCount = 1;
 	int bank = 10;
+	[SerializeField] int turnLimit = 50;
 	[SerializeField] int turnDelay = 2;
 	[SerializeField] CardUI selectedCard;
 	GameBoardManager boardManager;
+	UIManager uiManager;
 	bool boardProcessed = false;
 	bool handProcessed = false;
 
@@ -45,6 +48,7 @@ public class GameManager : MonoBehaviour
 	{
 		// trigger BoardManager building board, returning a list of tiles
 		boardManager = FindObjectOfType<GameBoardManager>();
+		uiManager = GetComponent<UIManager>();
 		InitializeUI();
 		StartPlayerTurn();
 	}
@@ -52,13 +56,14 @@ public class GameManager : MonoBehaviour
 	void InitializeUI()
 	{
 		OnBankUpdate?.Invoke(bank);
-		OnTurnCountUpdate?.Invoke(turnCount);
+		OnTurnCountUpdate?.Invoke($"{turnCount}/{turnLimit}");
 	}
 
 	void StartPlayerTurn()
 	{
 		// Set cash (passive income?)
 		OnPlayerTurn?.Invoke();
+		OnBoardUpdate?.Invoke();
 		state = States.PlayerTurn;
 		boardProcessed = false;
 		handProcessed = false;
@@ -82,9 +87,15 @@ public class GameManager : MonoBehaviour
 		yield return new WaitForSeconds(turnDelay);
 
 		turnCount++;
-		OnTurnCountUpdate?.Invoke(turnCount);
-
-		StartPlayerTurn();
+		if (turnCount > turnLimit)
+		{
+			EndGame();
+		}
+		else
+		{
+			OnTurnCountUpdate?.Invoke($"{turnCount}/{turnLimit}");
+			StartPlayerTurn();
+		}
 	}
 
 	private void UpdateSelectedCard(CardUI card)
@@ -112,6 +123,7 @@ public class GameManager : MonoBehaviour
 			OnPlayCard?.Invoke(selectedCard);
 			UpdateBank(-selectedCard.cardType.cardCost);
 			selectedCard = null;
+			OnBoardUpdate.Invoke();
 		}
 	}
 
@@ -123,4 +135,6 @@ public class GameManager : MonoBehaviour
 
 	void OnBoardProcessed() => boardProcessed = true;
 	void OnHandProcessed() => handProcessed = true;
+
+	private void EndGame() => uiManager.ToggleGameOver(bank);
 }
