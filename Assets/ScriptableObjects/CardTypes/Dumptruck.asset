@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Dump Truck
   cardRule: Fills Water tile with a Grass tile.
-  cardCost: 3
+  cardCost: 4
   cardImage: {fileID: 21300000, guid: eb7c94f64be5647488be04c349cf1e01, type: 3}
+  isImprovement: 0
   newPieceSO: {fileID: 11400000, guid: 0915f7df9e8c5014aac21a6f80480f1a, type: 2}
+  newImprovementSO: {fileID: 0}
   validPieces:
   - {fileID: 11400000, guid: 37074f7cba08f5847a76dbd442238ff5, type: 2}

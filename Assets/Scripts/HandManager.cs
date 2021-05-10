@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,10 @@ public class HandManager : MonoBehaviour
 	[SerializeField]
 	CardUI cardPrefab;
 
+	[SerializeField]
 	List<CardUI> cards = new List<CardUI>();
+
+	public static event Action OnCompleteEndTurn;
 
 	private void Awake()
 	{
@@ -35,8 +39,7 @@ public class HandManager : MonoBehaviour
 		{
 			var newCard = Instantiate(cardPrefab, transform);
 			newCard.transform.position = pos.position;
-			newCard.SetCardType(deck[Random.Range(0, deck.Count)]);
-			newCard.index = cards.Count;
+			newCard.SetCardType(deck[UnityEngine.Random.Range(0, deck.Count)]);
 			cards.Add(newCard);
 		}
 	}
@@ -50,7 +53,9 @@ public class HandManager : MonoBehaviour
 				Destroy(cards[i].gameObject);
 		cards.Clear();
 
-		deck.Add(cardPool[Random.Range(0, cardPool.Length)]);
+		deck.Add(cardPool[UnityEngine.Random.Range(0, cardPool.Length)]);
+
+		OnCompleteEndTurn?.Invoke();
 	}
 
 	void RemoveCard(CardUI card)

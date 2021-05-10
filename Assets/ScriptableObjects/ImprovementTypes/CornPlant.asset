@@ -15,6 +15,9 @@ MonoBehaviour:
   improvementName: Corn
   improvementRules: Grows in 2 turns. Harvest sells for $9.
   canGrow: 1
+  needsWater: 1
   growTime: 2
+  harvestIncome: 9
   modelPrefab: {fileID: 0}
   color: {r: 0.745283, g: 0.7292789, b: 0.418845, a: 0.8156863}
+  tileChangeOnHarvest: {fileID: 11400000, guid: 0915f7df9e8c5014aac21a6f80480f1a, type: 2}

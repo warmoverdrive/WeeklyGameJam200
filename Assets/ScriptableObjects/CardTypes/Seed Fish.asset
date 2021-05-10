@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e28733a157796144856626d01ec4119, type: 3}
-  m_Name: Lettuce
+  m_Name: Seed Fish
   m_EditorClassIdentifier: 
-  cardName: Lettuce Seeds
-  cardRule: 'Plants lettuce in tilled soil.
+  cardName: Seed Fish
+  cardRule: 'Seed a Water tile for fish farming.
 
-    Grows in 3 days, sells for $12.'
-  cardCost: 3
+    Takes three turns to develop,
+    harvest for $12.'
+  cardCost: 4
   cardImage: {fileID: 21300000, guid: eb7c94f64be5647488be04c349cf1e01, type: 3}
   isImprovement: 1
   newPieceSO: {fileID: 0}
-  newImprovementSO: {fileID: 11400000, guid: aabd41b2953907e4d9475d197747663d, type: 2}
+  newImprovementSO: {fileID: 11400000, guid: 6937a9181acc2004083c9f523338dbd7, type: 2}
   validPieces:
-  - {fileID: 11400000, guid: 2d937e0fa111b444ebddd314f595965f, type: 2}
+  - {fileID: 11400000, guid: 37074f7cba08f5847a76dbd442238ff5, type: 2}

@@ -17,7 +17,7 @@ MonoBehaviour:
 
     Grows in 4 turns. Sells for
     $20 '
-  cardCost: 2
+  cardCost: 3
   cardImage: {fileID: 21300000, guid: eb7c94f64be5647488be04c349cf1e01, type: 3}
   isImprovement: 1
   newPieceSO: {fileID: 0}

@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b54ee2c46dc8013449acfb543604807c, type: 3}
-  m_Name: LettucePlant
+  m_Name: WildGame
   m_EditorClassIdentifier: 
-  improvementName: Lettuce
-  improvementRules: Grows in 3 turns. Sells for $12
+  improvementName: Wild Game
+  improvementRules: 'Luring wild game for hunting.
+
+    Develops in 4 turns, harvets
+    for $20.'
   canGrow: 1
-  needsWater: 1
-  growTime: 3
-  harvestIncome: 12
+  growTime: 4
+  harvestIncome: 20
   modelPrefab: {fileID: 0}
-  color: {r: 0.7270326, g: 1, b: 0.57142854, a: 0}
-  tileChangeOnHarvest: {fileID: 11400000, guid: 0915f7df9e8c5014aac21a6f80480f1a, type: 2}
+  color: {r: 0.3773585, g: 0.16634339, b: 0, a: 0}

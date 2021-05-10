@@ -16,3 +16,4 @@ MonoBehaviour:
   rules: Ready to be seeded.
   color: {r: 0.9339623, g: 0.58704805, b: 0.34866244, a: 0}
   canImprove: 1
+  reclaimationType: {fileID: 11400000, guid: 0915f7df9e8c5014aac21a6f80480f1a, type: 2}

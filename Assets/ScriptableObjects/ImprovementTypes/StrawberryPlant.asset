@@ -15,6 +15,9 @@ MonoBehaviour:
   improvementName: Strawberry
   improvementRules: Grows in 4 turns. Harvest sells for $20
   canGrow: 1
+  needsWater: 1
   growTime: 4
+  harvestIncome: 20
   modelPrefab: {fileID: 0}
   color: {r: 0.8207547, g: 0.12831205, b: 0.12831205, a: 1}
+  tileChangeOnHarvest: {fileID: 11400000, guid: 0915f7df9e8c5014aac21a6f80480f1a, type: 2}

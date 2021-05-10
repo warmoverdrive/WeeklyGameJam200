@@ -17,7 +17,6 @@ public class CardUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
 	Image image;
 	[SerializeField]
 	public CardSO cardType { get; private set; }
-	public int index;
 	ToolTip tooltip;
 	RectTransform rectTransform;
 
@@ -60,8 +59,7 @@ public class CardUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
 		}
 		else if (eventData.button == PointerEventData.InputButton.Left && GameManager.state == States.PlayerTurn)
 		{
-			Debug.Log($"{cardType.cardName} clicked!");
-			OnCardSelected.Invoke(this);
+			OnCardSelected?.Invoke(this);
 		}
 	}
 

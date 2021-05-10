@@ -1,8 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class Improvement : MonoBehaviour, IPointerClickHandler
 {
@@ -13,9 +13,14 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 	SphereCollider pointerTarget;
 	ToolTip tooltip;
 	TextMesh cooldownText;
+	BoardSpace parentSpace;
+
+	GameObject model;
 
 	bool tooltipShown = false;
 	int growCountdown = 0;
+
+	public static event Action<int> OnHarvest;
 
 	private void Awake()
 	{
@@ -29,6 +34,7 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 	private void Start()
 	{
 		StartCoroutine(PieceInit());
+		parentSpace = GetComponentInParent<BoardSpace>();
 		pointerTarget = GetComponent<SphereCollider>();
 		pointerTarget.enabled = false;
 		cooldownText = GetComponentInChildren<TextMesh>();
@@ -48,7 +54,8 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 		gameObject.name = $"{type.improvementName} {transform.position.x}, {transform.position.z}";
 
 		// Debug for visualization purposes
-		var model = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+		model = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+		model.transform.SetParent(this.transform);
 		model.transform.position = transform.position;
 		model.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 		model.GetComponent<MeshRenderer>().material.color = type.color;
@@ -65,10 +72,14 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 
 	void UpdateCooldown()
 	{
-		if (improvementType && improvementType.canGrow)  // add is watered after testing
+		if (improvementType && improvementType.canGrow)
 		{
-			growCountdown -= 1;
-			cooldownText.text = growCountdown.ToString();
+			if (isWatered || !improvementType.needsWater)
+				growCountdown -= 1;
+			if (growCountdown > 0)
+				cooldownText.text = growCountdown.ToString();
+			else
+				cooldownText.text = "!";
 		}
 		isWatered = false;
 	}
@@ -84,10 +95,9 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 		}
 		else if (eventData.button == PointerEventData.InputButton.Left && GameManager.state == States.PlayerTurn)
 		{
-			Debug.Log($"Clicked {this.name}");
 			if (growCountdown < 1)
 			{
-				Debug.Log($"Can Harvest {this.name}");
+				HarvestImprovement();
 			}
 		}
 	}
@@ -107,5 +117,18 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 	{
 		tooltipShown = false;
 		tooltip.DeactivateTooltip();
+	}
+
+	public void WaterImprovement() => isWatered = true;
+
+	private void HarvestImprovement()
+	{
+		OnHarvest?.Invoke(improvementType.harvestIncome);
+		if (improvementType.tileChangeOnHarvest) // if there is a piece to change to after harvest
+			parentSpace.SetPieceType(improvementType.tileChangeOnHarvest);
+		improvementType = null;
+		pointerTarget.enabled = false;
+		cooldownText.text = "";
+		Destroy(model);
 	}
 }

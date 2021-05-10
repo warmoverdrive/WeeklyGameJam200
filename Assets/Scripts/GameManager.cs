@@ -20,59 +20,70 @@ public class GameManager : MonoBehaviour
 	int bank = 10;
 	[SerializeField] int turnDelay = 2;
 	[SerializeField] CardUI selectedCard;
+	GameBoardManager boardManager;
+	bool boardProcessed = false;
+	bool handProcessed = false;
 
 	private void Awake()
 	{
 		CardUI.OnCardSelected += UpdateSelectedCard;
 		BoardSpace.OnBoardClicked += UpdateBoardSpace;
+		Improvement.OnHarvest += UpdateBank;
+		GameBoardManager.OnCompleteEndTurn += OnBoardProcessed;
+		HandManager.OnCompleteEndTurn += OnHandProcessed;
 	}
 	private void OnDestroy()
 	{
 		CardUI.OnCardSelected -= UpdateSelectedCard;
 		BoardSpace.OnBoardClicked -= UpdateBoardSpace;
+		Improvement.OnHarvest -= UpdateBank;
+		GameBoardManager.OnCompleteEndTurn -= OnBoardProcessed;
+		HandManager.OnCompleteEndTurn -= OnHandProcessed;
 	}
 
 	private void Start()
 	{
 		// trigger BoardManager building board, returning a list of tiles
+		boardManager = FindObjectOfType<GameBoardManager>();
 		InitializeUI();
 		StartPlayerTurn();
 	}
 
 	void InitializeUI()
 	{
-		OnBankUpdate.Invoke(bank);
-		OnTurnCountUpdate.Invoke(turnCount);
+		OnBankUpdate?.Invoke(bank);
+		OnTurnCountUpdate?.Invoke(turnCount);
 	}
 
 	void StartPlayerTurn()
 	{
 		// Set cash (passive income?)
-		// Deal Hand
-		// Set State to PlayerTurn
-		OnPlayerTurn.Invoke();
+		OnPlayerTurn?.Invoke();
 		state = States.PlayerTurn;
+		boardProcessed = false;
+		handProcessed = false;
 	}
 
 	public void EndTurn()
 	{
-		// Check hazards
-		// Calculate tiles
-		// Add card to deck
-		// turn count ++
-		// Start Player TurnCount
-		Debug.Log("Ending turn");
 		state = States.EndTurn;
-		OnEndTurn.Invoke();
-		StartCoroutine(EndOfTurnDelay());
+		StartCoroutine(ProcessEndTurn());
 	}
 
-	IEnumerator EndOfTurnDelay()
+	IEnumerator ProcessEndTurn()
 	{
+		OnEndTurn?.Invoke();
+
+		// Make sure End Turn processing is complete
+		while (boardProcessed == false || handProcessed == false)
+			yield return new WaitForEndOfFrame();
+
+		// wait for a second to show the player things have been processed
 		yield return new WaitForSeconds(turnDelay);
-		Debug.Log("Starting new turn");
+
 		turnCount++;
-		OnTurnCountUpdate.Invoke(turnCount);
+		OnTurnCountUpdate?.Invoke(turnCount);
+
 		StartPlayerTurn();
 	}
 
@@ -83,7 +94,7 @@ public class GameManager : MonoBehaviour
 	{
 		if (selectedCard == null) return;
 
-		// check cost
+		if (selectedCard.cardType.cardCost > bank) return; // TODO send some warning to player
 
 		if (Array.Exists<PieceSO>(selectedCard.cardType.validPieces, piece => piece.pieceName == space.pieceType.pieceName))
 		{
@@ -98,8 +109,18 @@ public class GameManager : MonoBehaviour
 			else
 				space.SetPieceType(selectedCard.cardType.newPieceSO);
 
-			OnPlayCard.Invoke(selectedCard);
+			OnPlayCard?.Invoke(selectedCard);
+			UpdateBank(-selectedCard.cardType.cardCost);
 			selectedCard = null;
 		}
 	}
+
+	void UpdateBank(int value)
+	{
+		bank += value;
+		OnBankUpdate?.Invoke(bank);
+	}
+
+	void OnBoardProcessed() => boardProcessed = true;
+	void OnHandProcessed() => handProcessed = true;
 }
