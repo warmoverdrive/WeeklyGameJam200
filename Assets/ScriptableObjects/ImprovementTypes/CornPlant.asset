@@ -18,6 +18,9 @@ MonoBehaviour:
   needsWater: 1
   growTime: 2
   harvestIncome: 9
-  modelPrefab: {fileID: 0}
+  modelsByGrowth:
+  - {fileID: 919132149155446097, guid: 6d5e09c7f20fc2f43967c452cb35a3d1, type: 3}
+  - {fileID: 919132149155446097, guid: 2c373e6138b99864ab1be993037bdd3c, type: 3}
+  - {fileID: 919132149155446097, guid: a060f6a3664b5e94b8a8bb0d4264d58a, type: 3}
   color: {r: 0.854902, g: 0.7960785, b: 0.5019608, a: 0.8156863}
   tileChangeOnHarvest: {fileID: 11400000, guid: 0915f7df9e8c5014aac21a6f80480f1a, type: 2}

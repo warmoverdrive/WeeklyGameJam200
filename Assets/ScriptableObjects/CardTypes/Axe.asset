@@ -15,7 +15,9 @@ MonoBehaviour:
   cardName: Axe
   cardRule: Turn Forest tile into Grass
   cardCost: 1
-  cardImage: {fileID: 21300000, guid: eb7c94f64be5647488be04c349cf1e01, type: 3}
+  cardImage: {fileID: 21300000, guid: 4ab94bd751dcab14bbef6e81b92e839a, type: 3}
+  isImprovement: 0
   newPieceSO: {fileID: 11400000, guid: 0915f7df9e8c5014aac21a6f80480f1a, type: 2}
+  newImprovementSO: {fileID: 0}
   validPieces:
   - {fileID: 11400000, guid: f478a4817e37a7143ac86d0954687f88, type: 2}

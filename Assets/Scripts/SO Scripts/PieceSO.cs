@@ -8,7 +8,8 @@ public class PieceSO : ScriptableObject
 	public string pieceName;
 	[TextArea]
 	public string rules;
-	public Color color;
+	public GameObject model;
 	public bool canImprove;
+	public GameObject[] availableModelsForMenu;
 	public PieceSO reclaimationType;
 }

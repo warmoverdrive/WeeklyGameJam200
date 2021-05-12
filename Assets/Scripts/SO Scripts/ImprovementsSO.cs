@@ -12,7 +12,8 @@ public class ImprovementsSO : ScriptableObject
 	public bool needsWater;
 	public int growTime;
 	public int harvestIncome;
-	public GameObject modelPrefab;
+	[Tooltip("Add models in reverse order of growth, with harvestable first and seeds last")]
+	public GameObject[] modelsByGrowth;
 	public Color color;
 	public PieceSO tileChangeOnHarvest;
 }

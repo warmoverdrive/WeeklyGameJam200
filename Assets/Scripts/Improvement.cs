@@ -7,8 +7,6 @@ using UnityEngine.EventSystems;
 public class Improvement : MonoBehaviour, IPointerClickHandler
 {
 	public ImprovementsSO improvementType;
-	[SerializeField]
-	MeshRenderer baseMesh;
 	[SerializeField] bool isWatered = false;
 	SphereCollider pointerTarget;
 	ToolTip tooltip;
@@ -56,14 +54,6 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 	{
 		gameObject.name = $"{type.improvementName} {transform.position.x}, {transform.position.z}";
 
-		// Debug for visualization purposes
-		model = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-		model.transform.SetParent(this.transform);
-		model.transform.position = transform.position;
-		model.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-		model.GetComponent<MeshRenderer>().material.color = type.color;
-		//
-
 		improvementType = type;
 		pointerTarget.enabled = true;
 		if (type.canGrow)
@@ -71,6 +61,17 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 			growCountdown = type.growTime;
 			cooldownText.text = growCountdown.ToString();
 		}
+
+		SetImprovementModel();
+	}
+
+	private void SetImprovementModel()
+	{
+		if (model) Destroy(model);
+		model = Instantiate(improvementType.modelsByGrowth[growCountdown]);
+		model.transform.SetParent(this.transform);
+		model.transform.rotation = parentSpace.model.transform.rotation;
+		model.transform.localPosition = Vector3.zero;
 	}
 
 	void UpdateCooldown()
@@ -82,9 +83,13 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 			if (growCountdown > 0)
 				cooldownText.text = growCountdown.ToString();
 			else
+			{
 				cooldownText.text = "!";
+				growCountdown = 0;
+			}
+			SetImprovementModel();
+			UnwaterImprovement();
 		}
-		UnwaterImprovement();
 	}
 
 	public void OnPointerClick(PointerEventData eventData)

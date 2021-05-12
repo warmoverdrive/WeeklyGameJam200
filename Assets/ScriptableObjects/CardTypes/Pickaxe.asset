@@ -15,7 +15,9 @@ MonoBehaviour:
   cardName: Pickaxe
   cardRule: Breaks Rock tiles into Grass tiles.
   cardCost: 2
-  cardImage: {fileID: 21300000, guid: eb7c94f64be5647488be04c349cf1e01, type: 3}
+  cardImage: {fileID: 21300000, guid: 9089f7b462fd3ff439e1ee22cae3fdf1, type: 3}
+  isImprovement: 0
   newPieceSO: {fileID: 11400000, guid: 0915f7df9e8c5014aac21a6f80480f1a, type: 2}
+  newImprovementSO: {fileID: 0}
   validPieces:
   - {fileID: 11400000, guid: f0a3c9829cb5ab04988ddcba79b7a678, type: 2}

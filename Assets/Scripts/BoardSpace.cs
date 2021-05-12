@@ -7,10 +7,11 @@ using System;
 public class BoardSpace : MonoBehaviour, IPointerClickHandler
 {
 	public PieceSO pieceType;
-	[SerializeField]
-	MeshRenderer baseMesh;
 	ToolTip tooltip;
 	public List<BoardSpace> neighbors;
+	public GameObject model { get; private set; }
+
+	int[] rotations = { 0, 90, 180, 270 };
 
 	bool tooltipShown = false;
 
@@ -32,9 +33,12 @@ public class BoardSpace : MonoBehaviour, IPointerClickHandler
 
 	public void SetPieceType(PieceSO type)
 	{
+		if (model) Destroy(model);
 		gameObject.name = $"{type.pieceName} {transform.position.x}, {transform.position.z}";
-		baseMesh.material.color = type.color;
 		pieceType = type;
+		model = Instantiate(type.model, transform);
+		model.transform.localPosition = Vector3.zero;
+		model.transform.Rotate(new Vector3(0, rotations[UnityEngine.Random.Range(0, rotations.Length)], 0));
 	}
 
 	public void OnPointerClick(PointerEventData eventData)

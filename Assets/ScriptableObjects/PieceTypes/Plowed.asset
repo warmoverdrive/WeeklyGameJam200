@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceName: Plowed
   rules: Ready to be seeded.
-  color: {r: 0.8000001, g: 0.57254905, b: 0.36862746, a: 0}
+  model: {fileID: 919132149155446097, guid: 7832a715cc6f4494ab01663a7d7421e5, type: 3}
   canImprove: 1
   reclaimationType: {fileID: 11400000, guid: 0915f7df9e8c5014aac21a6f80480f1a, type: 2}

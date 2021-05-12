@@ -15,7 +15,7 @@ MonoBehaviour:
   cardName: Digger
   cardRule: Digs out a Water tile from a Grass tile.
   cardCost: 5
-  cardImage: {fileID: 21300000, guid: eb7c94f64be5647488be04c349cf1e01, type: 3}
+  cardImage: {fileID: 21300000, guid: 1853c14e531405d40abfe453c5f57de2, type: 3}
   isImprovement: 0
   newPieceSO: {fileID: 11400000, guid: 37074f7cba08f5847a76dbd442238ff5, type: 2}
   newImprovementSO: {fileID: 0}

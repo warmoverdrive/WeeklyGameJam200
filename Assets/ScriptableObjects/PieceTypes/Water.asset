@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceName: Water
   rules: Automatically irrigates adjacent tiles.
-  color: {r: 0.48235297, g: 0.6, b: 0.7843138, a: 0}
+  model: {fileID: 919132149155446097, guid: 801098b35977677439010ea8a78140a2, type: 3}
   canImprove: 1
   reclaimationType: {fileID: 11400000, guid: f0a3c9829cb5ab04988ddcba79b7a678, type: 2}

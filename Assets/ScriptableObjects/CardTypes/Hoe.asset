@@ -15,7 +15,9 @@ MonoBehaviour:
   cardName: Hoe
   cardRule: Tills Grass tiles, preparing them for seeds.
   cardCost: 1
-  cardImage: {fileID: 21300000, guid: eb7c94f64be5647488be04c349cf1e01, type: 3}
+  cardImage: {fileID: 21300000, guid: 08b545f70099e054aa9bed996cd8b412, type: 3}
+  isImprovement: 0
   newPieceSO: {fileID: 11400000, guid: 2d937e0fa111b444ebddd314f595965f, type: 2}
+  newImprovementSO: {fileID: 0}
   validPieces:
   - {fileID: 11400000, guid: 0915f7df9e8c5014aac21a6f80480f1a, type: 2}

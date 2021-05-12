@@ -18,7 +18,7 @@ MonoBehaviour:
     Takes three turns to develop,
     harvest for $12.'
   cardCost: 4
-  cardImage: {fileID: 21300000, guid: eb7c94f64be5647488be04c349cf1e01, type: 3}
+  cardImage: {fileID: 21300000, guid: 2b30fd31481cf194097be1c7b91e8dae, type: 3}
   isImprovement: 1
   newPieceSO: {fileID: 0}
   newImprovementSO: {fileID: 11400000, guid: 6937a9181acc2004083c9f523338dbd7, type: 2}

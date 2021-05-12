@@ -18,7 +18,7 @@ MonoBehaviour:
     4 turns to develop,
     generates $20.'
   cardCost: 4
-  cardImage: {fileID: 21300000, guid: eb7c94f64be5647488be04c349cf1e01, type: 3}
+  cardImage: {fileID: 21300000, guid: 5792cd34507e53044a674b2037d30d76, type: 3}
   isImprovement: 1
   newPieceSO: {fileID: 0}
   newImprovementSO: {fileID: 11400000, guid: 377b4878134934248a7f5d4f4025db1d, type: 2}
