@@ -16,6 +16,7 @@ MonoBehaviour:
   cardRule: Turn Forest tile into Grass
   cardCost: 1
   cardImage: {fileID: 21300000, guid: 4ab94bd751dcab14bbef6e81b92e839a, type: 3}
+  cardSFX: {fileID: 8300000, guid: e997571760865f64f82dbfc9265860d9, type: 3}
   isImprovement: 0
   newPieceSO: {fileID: 11400000, guid: 0915f7df9e8c5014aac21a6f80480f1a, type: 2}
   newImprovementSO: {fileID: 0}

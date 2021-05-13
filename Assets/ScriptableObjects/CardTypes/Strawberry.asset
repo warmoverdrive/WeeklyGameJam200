@@ -19,6 +19,7 @@ MonoBehaviour:
     $20 '
   cardCost: 3
   cardImage: {fileID: 21300000, guid: cfa39248092936542872d53915d26bdc, type: 3}
+  cardSFX: {fileID: 8300000, guid: 4b555c9489521d84aac37d57381e180f, type: 3}
   isImprovement: 1
   newPieceSO: {fileID: 0}
   newImprovementSO: {fileID: 11400000, guid: 496242ca612459942bc0f3c09838b272, type: 2}

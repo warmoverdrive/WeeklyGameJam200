@@ -23,12 +23,12 @@ public class GameBoardManager : MonoBehaviour
 	private void Awake()
 	{
 		GameManager.OnEndTurn += ExecuteEndTurn;
-		GameManager.OnBoardUpdate += CheckWaterTiles;
+		GameManager.OnBoardUpdate += UpdateWaterTiles;
 	}
 	private void OnDestroy()
 	{
 		GameManager.OnEndTurn -= ExecuteEndTurn;
-		GameManager.OnBoardUpdate -= CheckWaterTiles;
+		GameManager.OnBoardUpdate -= UpdateWaterTiles;
 	}
 
 	void Start()
@@ -62,15 +62,19 @@ public class GameBoardManager : MonoBehaviour
 				boardSpaces[row][col].neighbors = CheckNeighbors(row, col);
 	}
 
-	private void ExecuteEndTurn()
+	private void ExecuteEndTurn() => StartCoroutine(EndTurn());
+
+	private IEnumerator EndTurn()
 	{
-		CheckWaterTiles();
-		CheckReclaimation();
+		yield return StartCoroutine(CheckWaterTiles());
+		yield return StartCoroutine(CheckReclaimation());
 		CheckIfImprovementsExist();
 		OnCompleteEndTurn?.Invoke();
 	}
 
-	private void CheckWaterTiles()
+	private void UpdateWaterTiles() => StartCoroutine(CheckWaterTiles());
+
+	private IEnumerator CheckWaterTiles()
 	{
 		foreach (var row in boardSpaces)
 			foreach (var space in row)
@@ -81,13 +85,14 @@ public class GameBoardManager : MonoBehaviour
 					{
 						var neighborImprovement = neighbor.GetComponentInChildren<Improvement>();
 						if (neighborImprovement.improvementType == null) continue;
-						neighborImprovement.WaterImprovement();
+						if (neighborImprovement.IsWatered() == false)
+							yield return StartCoroutine(neighborImprovement.WaterImprovement());
 					}
 				}
 			}
 	}
 
-	private void CheckReclaimation()
+	private IEnumerator CheckReclaimation()
 	{
 		foreach (var row in boardSpaces)
 			foreach (var space in row)
@@ -95,7 +100,10 @@ public class GameBoardManager : MonoBehaviour
 				if (space.pieceType.reclaimationType == null) continue;
 				if (space.GetComponentInChildren<Improvement>().improvementType == null)
 					if (UnityEngine.Random.value <= reclaimationChance)
-						space.SetPieceType(space.pieceType.reclaimationType);
+						yield return StartCoroutine(
+							space.Reclaimation(
+								startingPieceTypes[UnityEngine.Random.Range(
+									0, startingPieceTypes.Length)]));
 
 			}
 	}

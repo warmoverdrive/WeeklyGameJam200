@@ -16,6 +16,7 @@ MonoBehaviour:
   cardRule: Breaks Rock tiles into Grass tiles.
   cardCost: 2
   cardImage: {fileID: 21300000, guid: 9089f7b462fd3ff439e1ee22cae3fdf1, type: 3}
+  cardSFX: {fileID: 8300000, guid: 114c82f6ec2b55c47b4b38504d497bbe, type: 3}
   isImprovement: 0
   newPieceSO: {fileID: 11400000, guid: 0915f7df9e8c5014aac21a6f80480f1a, type: 2}
   newImprovementSO: {fileID: 0}

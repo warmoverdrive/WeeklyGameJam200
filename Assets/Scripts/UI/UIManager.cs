@@ -9,7 +9,17 @@ public class UIManager : MonoBehaviour
 	[SerializeField]
 	GameObject gameUI, menuUI, gameOverUI;
 	[SerializeField]
-	Text scoreText, highScoreText, gameOverText;
+	Text scoreText, gameOverText;
+	[SerializeField]
+	ScreenFader screenFader;
+	[SerializeField]
+	MusicFader musicFader;
+	AudioSource audioSource;
+
+	private void Start()
+	{
+		audioSource = GetComponent<AudioSource>();
+	}
 
 	private void Update()
 	{
@@ -32,17 +42,28 @@ public class UIManager : MonoBehaviour
 
 	public void ToggleMenu()
 	{
+		ClickSound();
 		gameUI.SetActive(!gameUI.activeSelf);
 		menuUI.SetActive(!menuUI.activeSelf);
 	}
 
 	public void RestartGame()
 	{
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		ClickSound();
+		StartCoroutine(ChangeScene(SceneManager.GetActiveScene().buildIndex));
 	}
 
 	public void ReturnToMainMenu()
 	{
-		SceneManager.LoadScene(0);
+		ClickSound();
+		StartCoroutine(ChangeScene(0));
 	}
+
+	private IEnumerator ChangeScene(int index)
+	{
+		StartCoroutine(musicFader.FadeMusicOut());
+		yield return StartCoroutine(screenFader.FadeScreenOut());
+		SceneManager.LoadScene(index);
+	}
+	void ClickSound() => audioSource.PlayOneShot(audioSource.clip);
 }

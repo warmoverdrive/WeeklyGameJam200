@@ -19,6 +19,7 @@ public class CardUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
 	public CardSO cardType { get; private set; }
 	ToolTip tooltip;
 	RectTransform rectTransform;
+	AudioSource audioSource;
 
 	bool tooltipShown = false;
 
@@ -27,6 +28,7 @@ public class CardUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
 	private void Start()
 	{
 		rectTransform = GetComponent<RectTransform>();
+		audioSource = GetComponent<AudioSource>();
 		StartCoroutine(CardInit());
 	}
 
@@ -52,6 +54,7 @@ public class CardUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
 	{
 		if (eventData.button == PointerEventData.InputButton.Right)
 		{
+			ClickSound();
 			if (tooltipShown)
 				HideTooltip();
 			else
@@ -59,6 +62,7 @@ public class CardUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
 		}
 		else if (eventData.button == PointerEventData.InputButton.Left && GameManager.state == States.PlayerTurn)
 		{
+			ClickSound();
 			OnCardSelected?.Invoke(this);
 		}
 	}
@@ -106,4 +110,6 @@ public class CardUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler,
 		tooltipShown = false;
 		tooltip.DeactivateTooltip();
 	}
+
+	void ClickSound() => audioSource.PlayOneShot(audioSource.clip);
 }

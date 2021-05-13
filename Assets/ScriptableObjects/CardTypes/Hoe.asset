@@ -16,6 +16,7 @@ MonoBehaviour:
   cardRule: Tills Grass tiles, preparing them for seeds.
   cardCost: 1
   cardImage: {fileID: 21300000, guid: 08b545f70099e054aa9bed996cd8b412, type: 3}
+  cardSFX: {fileID: 8300000, guid: 4b555c9489521d84aac37d57381e180f, type: 3}
   isImprovement: 0
   newPieceSO: {fileID: 11400000, guid: 2d937e0fa111b444ebddd314f595965f, type: 2}
   newImprovementSO: {fileID: 0}

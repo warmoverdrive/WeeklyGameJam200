@@ -8,17 +8,22 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 {
 	public ImprovementsSO improvementType;
 	[SerializeField] bool isWatered = false;
+	[SerializeField] AudioClip harvestSound, selectSound, waterSound;
 	SphereCollider pointerTarget;
 	ToolTip tooltip;
 	TextMesh cooldownText;
 	BoardSpace parentSpace;
 	[SerializeField]
 	SpriteRenderer waterIcon;
+	AudioSource audioSource;
+	[SerializeField] ParticleSystem waterParticleSystem;
 
 	GameObject model;
 
 	bool tooltipShown = false;
 	int growCountdown = 0;
+
+	public bool IsWatered() => isWatered;
 
 	public static event Action<int> OnHarvest;
 
@@ -36,6 +41,7 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 		StartCoroutine(PieceInit());
 		parentSpace = GetComponentInParent<BoardSpace>();
 		pointerTarget = GetComponent<SphereCollider>();
+		audioSource = GetComponent<AudioSource>();
 		pointerTarget.enabled = false;
 		cooldownText = GetComponentInChildren<TextMesh>();
 		UnwaterImprovement();
@@ -97,9 +103,15 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 		if (eventData.button == PointerEventData.InputButton.Right)
 		{
 			if (tooltipShown)
+			{
+				ClickSound();
 				HideTooltip();
+			}
 			else
+			{
+				ClickSound();
 				ShowTooltip();
+			}
 		}
 		else if (eventData.button == PointerEventData.InputButton.Left && GameManager.state == States.PlayerTurn)
 		{
@@ -127,10 +139,13 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 		tooltip.DeactivateTooltip();
 	}
 
-	public void WaterImprovement()
+	public IEnumerator WaterImprovement()
 	{
 		if (improvementType.needsWater)
 		{
+			waterParticleSystem.Play();
+			audioSource.PlayOneShot(waterSound);
+			yield return new WaitForSeconds(waterParticleSystem.main.duration);
 			isWatered = true;
 			waterIcon.enabled = true;
 		}
@@ -144,6 +159,7 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 
 	private void HarvestImprovement()
 	{
+		audioSource.PlayOneShot(harvestSound);
 		OnHarvest?.Invoke(improvementType.harvestIncome);
 		if (improvementType.tileChangeOnHarvest) // if there is a piece to change to after harvest
 			parentSpace.SetPieceType(improvementType.tileChangeOnHarvest);
@@ -153,4 +169,6 @@ public class Improvement : MonoBehaviour, IPointerClickHandler
 		cooldownText.text = "";
 		Destroy(model);
 	}
+
+	void ClickSound() => audioSource.PlayOneShot(audioSource.clip);
 }

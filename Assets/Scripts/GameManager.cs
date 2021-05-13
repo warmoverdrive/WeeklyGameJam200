@@ -22,7 +22,9 @@ public class GameManager : MonoBehaviour
 	[SerializeField] int turnLimit = 50;
 	[SerializeField] int turnDelay = 2;
 	[SerializeField] CardUI selectedCard;
+	[SerializeField] AudioClip endTurnSound;
 	GameBoardManager boardManager;
+	AudioSource audioSource;
 	UIManager uiManager;
 	bool boardProcessed = false;
 	bool handProcessed = false;
@@ -52,6 +54,7 @@ public class GameManager : MonoBehaviour
 		// trigger BoardManager building board, returning a list of tiles
 		boardManager = FindObjectOfType<GameBoardManager>();
 		uiManager = GetComponent<UIManager>();
+		audioSource = GetComponent<AudioSource>();
 		InitializeUI();
 		StartPlayerTurn();
 	}
@@ -80,6 +83,8 @@ public class GameManager : MonoBehaviour
 
 	IEnumerator ProcessEndTurn()
 	{
+		audioSource.PlayOneShot(endTurnSound);
+		yield return new WaitForSeconds(endTurnSound.length);
 		OnEndTurn?.Invoke();
 
 		// Make sure End Turn processing is complete
@@ -130,6 +135,7 @@ public class GameManager : MonoBehaviour
 				space.SetPieceType(selectedCard.cardType.newPieceSO);
 
 			OnPlayCard?.Invoke(selectedCard);
+			audioSource.PlayOneShot(selectedCard.cardType.cardSFX);
 			UpdateBank(-selectedCard.cardType.cardCost);
 			selectedCard = null;
 			OnBoardUpdate.Invoke();
